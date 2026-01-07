@@ -2,20 +2,16 @@ import React, { useState } from "react";
 import { Copy, CheckCircle2, ShieldAlert } from "lucide-react";
 import "./App.css";
 
-/* =========================
-   HELPERS
-   ========================= */
 
-// random separator: only "-" or "_"
 const randomSeparator = () => (Math.random() > 0.5 ? "-" : "_");
 
-// insert separator at fixed index
+
 const breakWordRandomly = (word, index) => {
   const sep = randomSeparator();
   return word.slice(0, index) + sep + word.slice(index);
 };
 
-// preserve original casing
+
 const preserveCase = (original, replacement) => {
   if (original === original.toUpperCase()) {
     return replacement.toUpperCase();
@@ -35,27 +31,23 @@ const preserveCase = (original, replacement) => {
   return replacement;
 };
 
-/* =========================
-   WORD RULES
-   ========================= */
+
 
 const replacements = [
-  { regex: /\bpayment\b/gi, index: 2 },   // pa-yment / pa_yment
-  { regex: /\bpay\b/gi, index: 2 },       // pa-y / pa_y
-  { regex: /\bemail\b/gi, index: 3 },     // ema-il / ema_il
-  { regex: /\bmail\b/gi, index: 2 },      // ma-il / ma_il
-  { regex: /\bgmail\b/gi, index: 2 },     // gm-ail / gm_ail
-  { regex: /\bwhatsapp\b/gi, index: 4 },  // what-sapp / what_sapp
-  { regex: /\bskype\b/gi, index: 3 },     // sky-pe / sky_pe
-  { regex: /\btelegram\b/gi, index: 2 },  // te-legram / te_legram
-  { regex: /\bmoney\b/gi, index: 2 },     // mo-ney / mo_ney
-  { regex: /\bdollar\b/gi, index: 2 },    // do-llar / do_llar
-  { regex: /\breview\b/gi, index: 4 },    // revi-ew / revi_ew
+  { regex: /\bpayment\b/gi, index: 2 },  
+  { regex: /\bpay\b/gi, index: 2 },       
+  { regex: /\bemail\b/gi, index: 3 },     
+  { regex: /\bmail\b/gi, index: 2 },      
+  { regex: /\bgmail\b/gi, index: 2 },     
+  { regex: /\bwhatsapp\b/gi, index: 4 },  
+  { regex: /\bskype\b/gi, index: 3 },     
+  { regex: /\btelegram\b/gi, index: 2 },  
+  { regex: /\bmoney\b/gi, index: 2 },     
+  { regex: /\bdollar\b/gi, index: 2 },    
+  { regex: /\breview\b/gi, index: 4 },   
 ];
 
-/* =========================
-   APP
-   ========================= */
+
 
 const App = () => {
   const [message, setMessage] = useState("");
