@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Copy, CheckCircle2, ShieldAlert } from "lucide-react";
 import "./App.css";
 
-// helper: preserve original case
+
 const preserveCase = (original, replacement) => {
   if (original === original.toUpperCase()) {
     return replacement.toUpperCase();

@@ -1,10 +1,15 @@
+/* =========================
+   RESET
+   ========================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
+/* =========================
+   LAYOUT
+   ========================= */
 .container {
   min-height: 100vh;
   background-color: #050505;
@@ -15,10 +20,12 @@
   justify-content: center;
   padding: 20px;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-
+/* =========================
+   BACKGROUND BLOBS
+   ========================= */
 .blob {
   position: absolute;
   filter: blur(120px);
@@ -42,11 +49,13 @@
   right: -10%;
 }
 
-
+/* =========================
+   CARD
+   ========================= */
 .card {
   width: 100%;
   max-width: 1400px;
-  height: 90vh;
+  min-height: 90vh;
 
   display: flex;
   flex-direction: column;
@@ -57,32 +66,24 @@
   border-radius: 24px;
   padding: 40px;
   z-index: 1;
+
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
-
+/* =========================
+   HEADER
+   ========================= */
 .header {
   text-align: center;
   margin-bottom: 30px;
   flex-shrink: 0;
 }
 
-.iconBadge {
-  width: 40px;
-  height: 40px;
-  background: rgba(0, 242, 254, 0.1);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 15px;
-}
-
 .title {
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 10px;
-  background: linear-gradient(to right, #fff, #a5a5a5);
+  background: linear-gradient(to right, #ffffff, #a5a5a5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -92,17 +93,21 @@
   font-size: 1.1rem;
 }
 
-
+/* =========================
+   GRID
+   ========================= */
 .grid {
   flex: 1;
   min-height: 0;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
 }
 
-
+/* =========================
+   INPUT GROUP
+   ========================= */
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -115,26 +120,27 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-  flex-shrink: 0;
 }
 
 .label {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #aaa;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 10px;
+  margin-bottom : 10px
 }
 
 .label.success {
   color: #00ff87;
 }
 
-
+/* =========================
+   TEXTAREA
+   ========================= */
 .textarea {
   flex: 1;
   min-height: 0;
@@ -145,18 +151,28 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(0, 0, 0, 0.3);
   color: #fff;
+
   font-size: 1.05rem;
   line-height: 1.6;
+
   resize: none;
   outline: none;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.textarea::placeholder {
+  color: #666;
 }
 
 .outputArea {
-  border: 1px solid rgba(0, 255, 135, 0.2);
+  border: 1px solid rgba(0, 255, 135, 0.25);
   color: #00ff87;
 }
 
-
+/* =========================
+   BUTTON
+   ========================= */
 .copyButton {
   padding: 6px 14px;
   border-radius: 8px;
@@ -165,9 +181,16 @@
   color: #fff;
   font-size: 0.85rem;
   cursor: pointer;
+
   display: flex;
   align-items: center;
   gap: 6px;
+
+  transition: background 0.2s ease;
+}
+
+.copyButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .copyButton:disabled {
@@ -175,10 +198,102 @@
   cursor: not-allowed;
 }
 
+/* =========================
+   FOOTER
+   ========================= */
 .footer {
   margin-top: 25px;
   text-align: center;
   font-size: 0.85rem;
   color: #555;
   flex-shrink: 0;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .card {
+    padding: 30px;
+  }
+
+  .title {
+    font-size: 2.1rem;
+  }
+
+  .grid {
+    gap: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 20px;
+    border-radius: 18px;
+    min-height: auto;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .textarea {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  .label {
+    font-size: 0.75rem;
+  }
+
+  .copyButton {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .card {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .labelRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .copyButton {
+    align-self: flex-end;
+  }
+
+  .textarea {
+    border-radius: 12px;
+    font-size: 0.9rem;
+  }
 }
