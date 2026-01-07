@@ -2,7 +2,20 @@ import React, { useState } from "react";
 import { Copy, CheckCircle2, ShieldAlert } from "lucide-react";
 import "./App.css";
 
+/* =========================
+   HELPERS
+   ========================= */
 
+// random separator: only "-" or "_"
+const randomSeparator = () => (Math.random() > 0.5 ? "-" : "_");
+
+// insert separator at fixed index
+const breakWordRandomly = (word, index) => {
+  const sep = randomSeparator();
+  return word.slice(0, index) + sep + word.slice(index);
+};
+
+// preserve original casing
 const preserveCase = (original, replacement) => {
   if (original === original.toUpperCase()) {
     return replacement.toUpperCase();
@@ -14,24 +27,35 @@ const preserveCase = (original, replacement) => {
     original[0] === original[0].toUpperCase() &&
     original.slice(1) === original.slice(1).toLowerCase()
   ) {
-    return replacement[0].toUpperCase() + replacement.slice(1).toLowerCase();
+    return (
+      replacement[0].toUpperCase() +
+      replacement.slice(1).toLowerCase()
+    );
   }
   return replacement;
 };
 
+/* =========================
+   WORD RULES
+   ========================= */
+
 const replacements = [
-  { regex: /\bpayment\b/gi, replace: "pa-yment" },
-  { regex: /\bpay\b/gi, replace: "pa-y" },
-  { regex: /\bemail\b/gi, replace: "e-mail" },
-  { regex: /\bwhatsapp\b/gi, replace: "what-sapp" },
-  { regex: /\bskype\b/gi, replace: "sky-pe" },
-  { regex: /\btelegram\b/gi, replace: "te-legram" },
-  { regex: /\b5[- ]star review\b/gi, replace: "5-st(a)r review" },
-  { regex: /\bmoney\b/gi, replace: "mo-ney" },
-  { regex: /\bmail\b/gi, replace: "ma-il" },
-  { regex: /\bdollar\b/gi, replace: "do-llar" },
-  { regex: /\breview\b/gi, replace: "revi-ew" },
+  { regex: /\bpayment\b/gi, index: 2 },   // pa-yment / pa_yment
+  { regex: /\bpay\b/gi, index: 2 },       // pa-y / pa_y
+  { regex: /\bemail\b/gi, index: 3 },     // ema-il / ema_il
+  { regex: /\bmail\b/gi, index: 2 },      // ma-il / ma_il
+  { regex: /\bgmail\b/gi, index: 2 },     // gm-ail / gm_ail
+  { regex: /\bwhatsapp\b/gi, index: 4 },  // what-sapp / what_sapp
+  { regex: /\bskype\b/gi, index: 3 },     // sky-pe / sky_pe
+  { regex: /\btelegram\b/gi, index: 2 },  // te-legram / te_legram
+  { regex: /\bmoney\b/gi, index: 2 },     // mo-ney / mo_ney
+  { regex: /\bdollar\b/gi, index: 2 },    // do-llar / do_llar
+  { regex: /\breview\b/gi, index: 4 },    // revi-ew / revi_ew
 ];
+
+/* =========================
+   APP
+   ========================= */
 
 const App = () => {
   const [message, setMessage] = useState("");
@@ -42,10 +66,11 @@ const App = () => {
     const inputText = e.target.value;
     let updatedText = inputText;
 
-    replacements.forEach(({ regex, replace }) => {
-      updatedText = updatedText.replace(regex, (match) =>
-        preserveCase(match, replace)
-      );
+    replacements.forEach(({ regex, index }) => {
+      updatedText = updatedText.replace(regex, (match) => {
+        const broken = breakWordRandomly(match, index);
+        return preserveCase(match, broken);
+      });
     });
 
     setMessage(inputText);
@@ -63,7 +88,7 @@ const App = () => {
     <div className="container">
       <div className="card">
         <header className="header">
-          <h1 className="title">CC Message Guard</h1>
+          <h1 className="title">Message Guard</h1>
           <p className="subtitle">
             Fiverr-safe message checker & auto-corrector
           </p>
