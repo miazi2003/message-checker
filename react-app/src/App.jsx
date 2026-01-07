@@ -34,17 +34,17 @@ const preserveCase = (original, replacement) => {
 
 
 const replacements = [
-  { regex: /\bpayment\b/gi, index: 2 },  
-  { regex: /\bpay\b/gi, index: 2 },       
-  { regex: /\bemail\b/gi, index: 3 },     
-  { regex: /\bmail\b/gi, index: 2 },      
+  { regex: /\bpayment\b/gi, index: 2 },   
+  { regex: /\bpay\b/gi, index: 2 },     
+  { regex: /\bemail\b/gi, index: 3 },   
+  { regex: /\bmail\b/gi, index: 2 },     
   { regex: /\bgmail\b/gi, index: 2 },     
   { regex: /\bwhatsapp\b/gi, index: 4 },  
   { regex: /\bskype\b/gi, index: 3 },     
   { regex: /\btelegram\b/gi, index: 2 },  
-  { regex: /\bmoney\b/gi, index: 2 },     
+  { regex: /\bmoney\b/gi, index: 2 },    
   { regex: /\bdollar\b/gi, index: 2 },    
-  { regex: /\breview\b/gi, index: 4 },   
+  { regex: /\breview\b/gi, index: 4 },    
 ];
 
 
