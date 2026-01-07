@@ -1,26 +1,24 @@
 import React, { useState } from "react";
-import { Copy, CheckCircle2, ShieldAlert, Sparkles } from "lucide-react";
+import { Copy, CheckCircle2, ShieldAlert } from "lucide-react";
 import "./App.css";
 
 const replacements = [
-  { regex: /payment/gi, replace: "P-ayment" },
-  { regex: /pay/gi, replace: "P-ay" },
-  { regex: /email/gi, replace: "E-mail" },
-  { regex: /whatsapp/gi, replace: "What-sApp" },
-  { regex: /skype/gi, replace: "Sky-pe" },
-  { regex: /telegram/gi, replace: "Te-legram" },
-  { regex: /5-star review/gi, replace: "5-St(a)r Review" },
-  { regex: /5 star review/gi, replace: "5-St(a)r Review" },
-  { regex: /money/gi, replace: "Mo-ney" },
+  { regex: /\bpayment\b/gi, replace: "pa-yment" },
+  { regex: /\bpay\b/gi, replace: "pa-y" },
+  { regex: /\bemail\b/gi, replace: "e-mail" },
+  { regex: /\bwhatsapp\b/gi, replace: "what-sApp" },
+  { regex: /\bskype\b/gi, replace: "sky-pe" },
+  { regex: /\btelegram\b/gi, replace: "te-legram" },
+  { regex: /\b5[- ]star review\b/gi, replace: "5-St(a)r Review" },
+  { regex: /\bmoney\b/gi, replace: "mo-ney" },
+  { regex: /\bmail\b/gi, replace: "ma-il" },
+  { regex: /\bdollar\b/gi, replace: "do-llar" },
 ];
 
 const App = () => {
   const [message, setMessage] = useState("");
   const [correctedMessage, setCorrectedMessage] = useState("");
   const [copied, setCopied] = useState(false);
-
-  const capitalizeFirstLetter = (text) =>
-    text.charAt(0).toUpperCase() + text.slice(1);
 
   const handleChange = (e) => {
     const inputText = e.target.value;
@@ -30,15 +28,12 @@ const App = () => {
       updatedText = updatedText.replace(regex, replace);
     });
 
-    if (updatedText.length > 0) {
-      updatedText = capitalizeFirstLetter(updatedText);
-    }
-
     setMessage(inputText);
     setCorrectedMessage(updatedText);
   };
 
   const copyToClipboard = () => {
+    if (!correctedMessage) return;
     navigator.clipboard.writeText(correctedMessage);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -46,11 +41,12 @@ const App = () => {
 
   return (
     <div className="container">
-
       <div className="card">
         <header className="header">
           <h1 className="title">CC Message Guard</h1>
-
+          <p className="subtitle">
+            Fiverr-safe message checker & auto-corrector
+          </p>
         </header>
 
         <div className="grid">
@@ -71,7 +67,7 @@ const App = () => {
             <div className="labelRow">
               <label className="label success">
                 <CheckCircle2 size={16} />
-                Safe
+                Safe Message
               </label>
               <button
                 onClick={copyToClipboard}
@@ -82,10 +78,11 @@ const App = () => {
                 {copied ? "Copied!" : "Copy"}
               </button>
             </div>
+
             <textarea
               value={correctedMessage}
               readOnly
-              placeholder="Copy your output "
+              placeholder="Your Fiverr-safe message will appear here..."
               className="textarea outputArea"
             />
           </div>
