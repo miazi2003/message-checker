@@ -2,17 +2,35 @@ import React, { useState } from "react";
 import { Copy, CheckCircle2, ShieldAlert } from "lucide-react";
 import "./App.css";
 
+// helper: preserve original case
+const preserveCase = (original, replacement) => {
+  if (original === original.toUpperCase()) {
+    return replacement.toUpperCase();
+  }
+  if (original === original.toLowerCase()) {
+    return replacement.toLowerCase();
+  }
+  if (
+    original[0] === original[0].toUpperCase() &&
+    original.slice(1) === original.slice(1).toLowerCase()
+  ) {
+    return replacement[0].toUpperCase() + replacement.slice(1).toLowerCase();
+  }
+  return replacement;
+};
+
 const replacements = [
   { regex: /\bpayment\b/gi, replace: "pa-yment" },
   { regex: /\bpay\b/gi, replace: "pa-y" },
   { regex: /\bemail\b/gi, replace: "e-mail" },
-  { regex: /\bwhatsapp\b/gi, replace: "what-sApp" },
+  { regex: /\bwhatsapp\b/gi, replace: "what-sapp" },
   { regex: /\bskype\b/gi, replace: "sky-pe" },
   { regex: /\btelegram\b/gi, replace: "te-legram" },
-  { regex: /\b5[- ]star review\b/gi, replace: "5-St(a)r Review" },
+  { regex: /\b5[- ]star review\b/gi, replace: "5-st(a)r review" },
   { regex: /\bmoney\b/gi, replace: "mo-ney" },
   { regex: /\bmail\b/gi, replace: "ma-il" },
   { regex: /\bdollar\b/gi, replace: "do-llar" },
+  { regex: /\breview\b/gi, replace: "revi-ew" },
 ];
 
 const App = () => {
@@ -25,7 +43,9 @@ const App = () => {
     let updatedText = inputText;
 
     replacements.forEach(({ regex, replace }) => {
-      updatedText = updatedText.replace(regex, replace);
+      updatedText = updatedText.replace(regex, (match) =>
+        preserveCase(match, replace)
+      );
     });
 
     setMessage(inputText);
