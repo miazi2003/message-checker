@@ -45,6 +45,7 @@ const replacements = [
   { regex: /\bmoney\b/gi, index: 2 },    
   { regex: /\bdollar\b/gi, index: 2 },    
   { regex: /\breview\b/gi, index: 4 },    
+  { regex: /\bpaypal\b/gi, index: 2 },    
 ];
 
 
