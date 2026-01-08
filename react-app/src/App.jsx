@@ -125,16 +125,14 @@ const App = () => {
   const handleChange = (e) => {
     const input = e.target.value;
     setMessage(input);
-    
-    // Find risky words
+
     const foundRiskyWords = findRiskyWords(input);
     setRiskyWords(foundRiskyWords);
     
-    // Transform message
+ 
     const safe = makeSafeMessage(input);
     setCorrectedMessage(safe);
-    
-    // Update word counts
+
     const words = input.trim().split(/\s+/).filter(w => w.length > 0);
     const safeWords = safe.trim().split(/\s+/).filter(w => w.length > 0);
     setWordCount(words.length);
@@ -150,7 +148,7 @@ const App = () => {
 
   return (
     <div className="container">
-      {/* Animated Background Elements */}
+
       <div className="gradient-bg">
         <div className="gradient-circle gradient-1"></div>
         <div className="gradient-circle gradient-2"></div>
@@ -158,7 +156,6 @@ const App = () => {
         <div className="noise-overlay"></div>
       </div>
 
-      {/* Floating Particles */}
       <div className="particles">
         {[...Array(15)].map((_, i) => (
           <div key={i} className="particle" style={{
@@ -172,7 +169,7 @@ const App = () => {
       </div>
 
       <div className="card">
-        {/* Header with Glow Effect */}
+
         <header className="header">
           <div className="logo-container">
             <div className="logo-icon">
@@ -208,7 +205,6 @@ const App = () => {
           </div> */}
         </header>
 
-        {/* Risky Words Alert Section */}
         {riskyWords.length > 0 && (
           <div className="risky-words-section">
             <div className="risky-words-header">
@@ -237,7 +233,6 @@ const App = () => {
         )}
 
         <div className="grid">
-          {/* Input Section */}
           <div className="inputGroup">
             <div className="section-header">
               <div className="section-title">
@@ -287,7 +282,7 @@ Example risky words: money, payment, email, pay, review, whatsapp"
             </div>
           </div>
 
-          {/* Output Section */}
+
           <div className="inputGroup">
             <div className="section-header">
               <div className="section-title">
