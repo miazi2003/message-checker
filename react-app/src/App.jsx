@@ -2,23 +2,13 @@ import React, { useState } from "react";
 import { Copy, CheckCircle2, ShieldAlert } from "lucide-react";
 import "./App.css";
 
-
+/* Random separator */
 const randomSeparator = () => (Math.random() > 0.5 ? "-" : "_");
 
-
-const breakWordRandomly = (word, index) => {
-  const sep = randomSeparator();
-  return word.slice(0, index) + sep + word.slice(index);
-};
-
-
+/* Preserve original casing */
 const preserveCase = (original, replacement) => {
-  if (original === original.toUpperCase()) {
-    return replacement.toUpperCase();
-  }
-  if (original === original.toLowerCase()) {
-    return replacement.toLowerCase();
-  }
+  if (original === original.toUpperCase()) return replacement.toUpperCase();
+  if (original === original.toLowerCase()) return replacement.toLowerCase();
   if (
     original[0] === original[0].toUpperCase() &&
     original.slice(1) === original.slice(1).toLowerCase()
@@ -31,24 +21,51 @@ const preserveCase = (original, replacement) => {
   return replacement;
 };
 
-
-
-const replacements = [
-  { regex: /\bpayment\b/gi, index: 2 },   
-  { regex: /\bpay\b/gi, index: 2 },     
-  { regex: /\bemail\b/gi, index: 3 },   
-  { regex: /\bmail\b/gi, index: 2 },     
-  { regex: /\bgmail\b/gi, index: 2 },     
-  { regex: /\bwhatsapp\b/gi, index: 4 },  
-  { regex: /\bskype\b/gi, index: 3 },     
-  { regex: /\btelegram\b/gi, index: 2 },  
-  { regex: /\bmoney\b/gi, index: 2 },    
-  { regex: /\bdollar\b/gi, index: 2 },    
-  { regex: /\breview\b/gi, index: 4 },    
-  { regex: /\bpaypal\b/gi, index: 2 },    
+/* Risky keywords + break positions */
+const riskyRules = [
+  { word: "pay", breakAfter: 2 },      // pa-y
+  { word: "mail", breakAfter: 2 },     // ma-il
+  { word: "whatsapp", breakAfter: 4 }, // what-sapp
+  { word: "review", breakAfter: 2 },   // re-view
+  { word: "skype", breakAfter: 2 },    // sk-ype
+  { word: "telegram", breakAfter: 3 }, // tel-egram
+  { word: "money", breakAfter: 2 },    // mo-ney
+  { word: "dollar", breakAfter: 3 },   // dol-lar
 ];
 
+/* Main transformer */
+const makeSafeMessage = (text) => {
+  let safeText = text;
 
+  /* Handle "5 star" */
+  safeText = safeText.replace(/5\s*star/gi, () => {
+    return "5" + randomSeparator() + "star";
+  });
+
+  /* Match words with punctuation */
+  safeText = safeText.replace(/\b[\w]+[^\s]*\b/g, (word) => {
+    const lower = word.toLowerCase();
+
+    for (const rule of riskyRules) {
+      const idx = lower.indexOf(rule.word);
+
+      if (idx !== -1) {
+        const breakPoint = idx + rule.breakAfter;
+
+        const broken =
+          word.slice(0, breakPoint) +
+          randomSeparator() +
+          word.slice(breakPoint);
+
+        return preserveCase(word, broken);
+      }
+    }
+
+    return word;
+  });
+
+  return safeText;
+};
 
 const App = () => {
   const [message, setMessage] = useState("");
@@ -56,18 +73,9 @@ const App = () => {
   const [copied, setCopied] = useState(false);
 
   const handleChange = (e) => {
-    const inputText = e.target.value;
-    let updatedText = inputText;
-
-    replacements.forEach(({ regex, index }) => {
-      updatedText = updatedText.replace(regex, (match) => {
-        const broken = breakWordRandomly(match, index);
-        return preserveCase(match, broken);
-      });
-    });
-
-    setMessage(inputText);
-    setCorrectedMessage(updatedText);
+    const input = e.target.value;
+    setMessage(input);
+    setCorrectedMessage(makeSafeMessage(input));
   };
 
   const copyToClipboard = () => {
