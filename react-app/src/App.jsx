@@ -33,6 +33,9 @@ const riskyRules = [
   { word: "dollar", breakAfter: 3 },   // dol-lar
   { word: "email", breakAfter: 2 },    // em-ail (added since you mentioned email in example)
   { word: "payment", breakAfter: 3 },  // pay-ment (added since you mentioned payment in example)
+  { word: "number", breakAfter: 3 },  // pay-ment (added since you mentioned payment in example)
+  { word: "phone", breakAfter: 2 },  // pay-ment (added since you mentioned payment in example)
+  { word: "bank", breakAfter: 2 },  // pay-ment (added since you mentioned payment in example)
 ];
 
 /* Find risky words in text - improved version */
@@ -335,7 +338,9 @@ Example risky words: money, payment, email, pay, review, whatsapp"
 
 
       </div>
-    </div>
+   </div>
+
+
   );
 };
 
