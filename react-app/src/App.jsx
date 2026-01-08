@@ -84,9 +84,13 @@ const findRiskyWords = (text) => {
 const makeSafeMessage = (text) => {
   let safeText = text;
 
-  /* Handle "5 star" */
-  safeText = safeText.replace(/5\s*star/gi, () => {
-    return "5" + randomSeparator() + "star";
+  /* Special case: only "5 star" */
+  safeText = safeText.replace(/5\s*star/gi, (match) => {
+    // keep original casing for "star"
+    const starPart = match.match(/star/i)[0];
+    const brokenStar = starPart.replace(/ar/i, "(a)r");
+
+    return "5 " + brokenStar;
   });
 
   /* Match words with risky content */
@@ -113,6 +117,7 @@ const makeSafeMessage = (text) => {
 
   return safeText;
 };
+
 
 const App = () => {
   const [message, setMessage] = useState("");
